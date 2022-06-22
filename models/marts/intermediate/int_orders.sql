@@ -10,7 +10,7 @@ orders as(
 payments as(
 
     select * from {{ ref('stg_stripe__payments') }}
-    where payments.payment_status != 'fail'
+    where payment_status != 'fail'
 
 ),
 
@@ -31,13 +31,13 @@ order_values_joined as(
 
      select 
 
-    orders.*,y
+    orders.*,
     order_totals.payment_status,
     order_totals.order_value_dollars
 
-     from orders
-     left join order_totals
-      on orders.order_id = order_totals.order_id
+    from orders
+    left join order_totals
+    on orders.order_id = order_totals.order_id
 )
 
 select * from order_values_joined
